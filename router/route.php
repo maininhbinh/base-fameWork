@@ -11,10 +11,6 @@ $router->get('/home', function () {
     echo 'đây là trang home';
 });
 
-$router->get('/use/{id}/{page}', function ($id, $page) {
-    echo $id, $page;
-});
-
 $router->get('*', function () {
     echo '404';
 });

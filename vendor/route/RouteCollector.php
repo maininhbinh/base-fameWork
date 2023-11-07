@@ -44,6 +44,7 @@ class RouteCollector
     {
         $checkRoute = false;
         $routes = $this->routes;
+        // var_dump($items);
         foreach ($routes as $route) {
             list($httpMethod, $route, $handler) = $route;
 
@@ -55,7 +56,8 @@ class RouteCollector
                 $checkRoute = true;
             } else if (strpos($route, '{') === false && strpos($route, '}') === false) {
 
-                if (strcmp(strtolower(ltrim($this->url, '/')), strtolower(ltrim($route, '/'))) === 0) {
+
+                if (strcmp(strtolower(trim($this->url, '/')), strtolower(trim($route, '/'))) === 0) {
                     $checkRoute = true;
                 } else {
                     continue;
@@ -63,14 +65,16 @@ class RouteCollector
             } else {
                 $routeParam = array_values(array_filter(explode('/', $route)));
                 $requestParams = array_values(array_filter(explode('/', $this->url)));
+                $pattern = preg_replace('/{[^}]+}/', '[^/]+', strtolower(trim($route, '/')));
+                $match = preg_match(sprintf('~^%s$~', $pattern), strtolower(trim($this->url, '/')));
 
-                if (count($routeParam) == count($requestParams)) {
+                if (count($routeParam) == count($requestParams) && $match) {
                     foreach ($routeParam as $index => $item) {
-                        if (preg_match('/^{\w+}$/', $item) == true) {
+                        if (preg_match('/^{\w+}$/', $item)) {
                             $this->params[] = $requestParams[$index];
+                            $checkRoute = true;
                         }
                     }
-                    $checkRoute = true;
                 } else {
                     continue;
                 }
