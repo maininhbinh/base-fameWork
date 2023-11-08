@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\route;
+namespace Modules\route;
 
 
 class RouteCollector
@@ -55,7 +55,6 @@ class RouteCollector
             if ($route === '*') {
                 $checkRoute = true;
             } else if (strpos($route, '{') === false && strpos($route, '}') === false) {
-
 
                 if (strcmp(strtolower(trim($this->url, '/')), strtolower(trim($route, '/'))) === 0) {
                     $checkRoute = true;

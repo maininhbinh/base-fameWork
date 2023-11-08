@@ -1,6 +1,6 @@
 <?php
 
-use Vendor\route\RouteCollector;
+use Modules\route\RouteCollector;
 
 $router = new RouteCollector();
 $url = !isset($_GET['url']) ? "/" : $_GET['url'];
